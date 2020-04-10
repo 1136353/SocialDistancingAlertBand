@@ -1,0 +1,14 @@
+Hardware Requirments 
+1. Ulatrasonic sensor 
+2. IR Sensor 
+3. Node mcu esp8266 
+4. LED 
+5. Buzzer 
+6. 5V  Battery 
+7. Connecting Wire 
+8. Miscellaneous
+
+Software Requirment 
+1. Arduino Windows 10 
+2. Filmora  (Video Editing)
+3. Thingspeak

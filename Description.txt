@@ -1,0 +1,12 @@
+Social Distancing Alert Band (SDAB) 
+
+the idea is all about making people habitual to follow social distancing. 
+
+Problem :
+Many people in our country not following social distancing. 
+And those who are following social distancing they have a bad habit of touching their face again and again.
+
+Solution :
+Social Distancing Alert Band (SDAB) 
+Social distancing alert band is giving the user continuous alert and follow social distancing and not to touch your face.
+Two-person keep the distance between them is 1m, if less than 1m buzzer will ON. 
