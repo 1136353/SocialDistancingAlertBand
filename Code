@@ -1,0 +1,100 @@
+#include <ESP8266WiFi.h>
+
+String apiWritekey = "0IL8MSM54F88LQLR"; 
+const char* ssid = "mi";
+const char* password = "12121212" ;
+const char* server = "api.thingspeak.com";
+WiFiClient client;
+
+#define trigpin D6
+#define echopin D5
+#define LED_BUILTIN 4
+
+int dist;
+int durat;
+
+
+void setup() {
+  
+pinMode(LED_BUILTIN, OUTPUT);
+pinMode(trigpin,OUTPUT);
+pinMode(echopin,INPUT);
+Serial.begin(115200);
+
+ Serial.begin(115200);
+  WiFi.disconnect();
+  delay(10);
+  WiFi.begin(ssid, password);
+
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("NodeMcu connected to wifi...");
+  Serial.println(ssid);
+  Serial.println();
+}
+
+void loop() {
+digitalWrite(trigpin,LOW);
+delay(2);
+digitalWrite(trigpin,HIGH);
+delay(10);
+digitalWrite(trigpin,LOW);
+durat=pulseIn(echopin,HIGH);
+dist=durat*0.0342/2;
+Serial.print("Distance=");
+Serial.println(dist);
+
+if(dist<100)
+{
+
+digitalWrite(LED_BUILTIN, HIGH);
+delay(100);
+digitalWrite(LED_BUILTIN, LOW);   
+}
+
+
+else
+{
+digitalWrite(LED_BUILTIN, LOW);  
+
+}
+
+ float temp = dist ;
+
+  if (client.connect(server,80)) {
+    String tsData = apiWritekey;
+    tsData +="&field1=";
+    tsData += String(temp);
+    tsData += "\r\n\r\n";
+
+    client.print("POST /update HTTP/1.1\n");
+    client.print("Host: api.thingspeak.com\n");
+    client.print("Connection: close\n");
+    client.print("X-THINGSPEAKAPIKEY: "+apiWritekey+"\n");
+    client.print("Content-Type: application/x-www-form-urlencoded\n");
+    client.print("Content-Length: ");
+    client.print(tsData.length());
+    client.print("\n\n");
+    client.print(tsData);
+
+    Serial.print("Distance  ");
+    Serial.print(temp);
+    Serial.println("uploaded to Thingspeak server....");
+  }
+  client.stop();
+
+  Serial.println("Waiting to upload next reading...");
+  Serial.println();
+
+
+}
